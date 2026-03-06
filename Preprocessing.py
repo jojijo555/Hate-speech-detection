@@ -21,7 +21,7 @@ from skimage.color.rgb_colors import greenyellow
 nltk.download('wordnet')
 nltk.download('stopwords')
 
-def hate_detection(db, execute):
+def hate_detection():
 
     cprint("CSV dataset is Reading", on_color='on_grey')
     file = pd.read_csv("Training/MultiLanguageTrainDataset.csv")
@@ -31,13 +31,11 @@ def hate_detection(db, execute):
     #Preprocessing
     def remove_less_frequency(text):
 
-        # words = re.findall(r'\b\w+\b')
         word_counts = Counter(text)
 
         threshold = 2
         filtered_words = [word for word in word_counts if word_counts[word] >= threshold]
 
-        # filtered_text = ' '.join(filtered_words)
         print("Filtered Text:", filtered_words)
         return word_counts
 
@@ -142,28 +140,13 @@ def hate_detection(db, execute):
 
         def remove_less_frequency(text):
 
-            # words = re.findall(r'\b\w+\b')
             word_counts = Counter(text)
 
             threshold = 2
             filtered_words = [word for word in word_counts if word_counts[word] >= threshold]
 
-            # filtered_text = ' '.join(filtered_words)
             print("Filtered Text:", filtered_words)
             return word_counts
-
-            # def remove_punctuation(my_string):
-            #     # Sample string
-            #     # my_string = "Hello! How are you? I'm doing well, thanks."
-
-            #     # Remove punctuation
-            #     new_string = ""
-            #     for char in my_string:
-            #         if char not in string.punctuation:
-            #             new_string += char
-            #     # Output
-            #     print(new_string)
-            #     return new_string
 
         from tqdm import tqdm  # Make sure to import tqdm if you want to use it for progress bars
 
@@ -242,8 +225,6 @@ def hate_detection(db, execute):
         cprint("transliterate", on_color='on_grey')
         A5 = transliterate(A44)
 
-        # for i in A5[:1]:
-        #     # feature extraction
         cprint("feature and label convert to array format", on_color='on_grey')
         feature_extr = feature_extraction(A5)
         feat = np.array(feature_extr)
@@ -254,20 +235,5 @@ def hate_detection(db, execute):
         return feature, label
 
 
-    # else:
-    #     if db == 1:
-    #         FEAT = np.load('feature.npy', allow_pickle=True)
-    #         LAB = np.load('label.npy', allow_pickle=True)
-    #         return FEAT, LAB.astype(int)
-    #
-    #     else:
-    #         FEATT = np.load('feature2.npy')
-    #         LAABB = np.load('lab2.npy')
-    #         # FEAT1 = FEAT1[1:, :]
-    #         return FEATT, LAABB
-
-
-d = [2]
-for i in d:
-    FEAT, LAB = mainfile(i, True)
-    TP_COMPARTIVE(FEAT, LAB, i)
+FEAT, LAB = mainfile()
+TP_COMPARTIVE(FEAT, LAB)
